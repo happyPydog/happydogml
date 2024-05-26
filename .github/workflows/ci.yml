@@ -1,13 +1,12 @@
 name: Test
 
-# uncomment if needed ci
 on:
-  # push:
-  #   branches:
-  #     - main
-  # pull_request:
-  #   branches:
-  #     - "*"
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - "*"
 
 jobs:
   test:
