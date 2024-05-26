@@ -1,11 +1,25 @@
 [tool.poetry]
-name = "<project_name>"
+name = "happydogml"
 version = "0.0.0"
-description = "<description>"
+description = "The machine learning library build by Happydog."
 authors = ["Happydog <happydog0930@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-packages = [{ include = "<project_name>", from = "src" }]
+packages = [{ include = "happydogml", from = "src" }]
+
+[tool.poetry.dependencies]
+python = ">=3.12,<3.13"
+numpy = "^1.26.4"
+pandas = "^2.2.2"
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.29.4"
+pytest = "^8.2.1"
+pytest-mock = "^3.14.0"
+flake8 = "^7.0.0"
+mypy = "^1.10.0"
+black = {extras = ["jupyter"], version = "^24.4.2"}
+isort = "^5.13.2"
 
 [build-system]
 requires = ["poetry-core"]
@@ -18,4 +32,4 @@ line-length = 79
 profile = "black"
 line_length = 79
 src_paths = ["src", "tests"]
-known_first_party = ["autonotellm"]
+known_first_party = ["happydogml"]
