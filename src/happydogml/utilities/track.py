@@ -1,9 +1,10 @@
 """Utilities functions."""
 
 import functools
+import inspect
 import logging
 import time
-from typing import Callable, ParamSpec, TypeVar
+from typing import Any, Callable, ParamSpec, TypeVar, cast
 
 from happydogml.logging import default_logger
 
@@ -36,15 +37,21 @@ def track(
         @functools.wraps(func)
         def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
             start_time_ns = time.perf_counter_ns()
-            log_data = {
+
+            func_signature = inspect.signature(func)
+            bound_arguments = func_signature.bind(*args, **kwargs)
+            bound_arguments.apply_defaults()
+
+            log_data: dict[str, Any] = {
                 "function": func.__name__,
-                "args": args,
-                "kwargs": kwargs,
+                "signature": str(func_signature),
+                "args": bound_arguments.args,
+                "kwargs": bound_arguments.kwargs,
             }
             try:
                 result = func(*args, **kwargs)
                 log_data.update({"status": "success", "result": result})
-                return result
+                return cast(R, result)
             except Exception as e:
                 log_data.update({"status": "error", "error": str(e)})
                 raise
