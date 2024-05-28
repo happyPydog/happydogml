@@ -19,7 +19,12 @@ def test_track_success(test_logger, mocker):
     assert log_data["kwargs"] == {}
     assert log_data["status"] == "success"
     assert log_data["result"] == 15
-    assert "execution_time" in log_data
+    assert "execution_time_ns" in log_data
+    assert "execution_time_sec" in log_data
+    assert (
+        log_data["execution_time_sec"]
+        == log_data["execution_time_ns"] / 1_000_000_000
+    )
 
 
 def test_track_error(test_logger, mocker):
@@ -38,4 +43,9 @@ def test_track_error(test_logger, mocker):
     assert log_data["kwargs"] == {}
     assert log_data["status"] == "error"
     assert log_data["error"] == "division by zero"
-    assert "execution_time" in log_data
+    assert "execution_time_ns" in log_data
+    assert "execution_time_sec" in log_data
+    assert (
+        log_data["execution_time_sec"]
+        == log_data["execution_time_ns"] / 1_000_000_000
+    )

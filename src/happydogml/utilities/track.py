@@ -49,9 +49,13 @@ def track(
                 log_data.update({"status": "error", "error": str(e)})
                 raise
             finally:
-                # recording execution time per sec
-                log_data["execution_time"] = (
-                    time.perf_counter_ns() - start_time_ns
+                delta_ns = time.perf_counter_ns() - start_time_ns
+                delta_sec = delta_ns / 1_000_000_000
+                log_data.update(
+                    {
+                        "execution_time_ns": delta_ns,
+                        "execution_time_sec": delta_sec,
+                    }
                 )
                 logger.info(log_data)
 
